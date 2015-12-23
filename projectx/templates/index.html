@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>AIDS - Automated Intelligent Delivery System</title>
+<head>
+</head>	
+	<br>
+	<br>
+	<form id="user_info_form" action="{% url 'index' %}" method="post">
+		<input type="text" class="form-control" placeholder="User Id" id="userid">
+		<br>
+		<input type="text" class="form-control" placeholder="Transaction Amount" id="amount" style= "margin-top : 10px">
+		<br>
+		<br>
+		Mode of Payment
+		<input type="radio" name="sex" value="male" style = "margin-top: -10px" checked> Online
+	    <br>
+	    <input type="radio" name="sex" value="female"> Cash On Delivery
+	</form>
+<body>
+</body>	
+</html>

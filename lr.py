@@ -37,20 +37,34 @@ def normalize(X):
 	smax = np.amax(X, axis=0)
 	return (((X - mu) / (smax - smin)) + 1) / 2
 
-def main():
-	#print (sigmoid(0))
+def predict(theta, X):
+	return (sigmoid(X.dot(theta)) >= 0.5)
+
+def train():
 	data = np.loadtxt("training_data.csv", delimiter=',', dtype=float)
 	data = np.random.permutation(data)
 	useful_data = np.array([1, 2, 3, 4, 5, 6, 7])
 	data = data[:, useful_data]
-	X = data[:, :-1]
-	y = data[:, -1]
+
+	train_data = data[:int(0.7 * len(data)), :]
+	test_data = data[int(0.7 * len(data)):, :]
+
+	X = train_data[:, :-1]
+	y = train_data[:, -1]
 	theta = np.random.uniform(0, 1, len(X[0]))
 	
 	X = normalize(X)
 	theta = fmin_bfgs(f=compute_cost, x0=theta, fprime=compute_grad, args=(X, y), maxiter=400)
 
-	plot_data(theta, X, y)
+	x_test = test_data[:, :-1]
+	x_test = normalize(x_test)
+	y_test = test_data[:, -1]
+	y_predict = predict(theta, x_test)
 
-if __name__ == "__main__":
-	main()
+	accuracy = (1 - sum(np.absolute(y_predict - y_test)) / len(y_test)) * 100
+	print("Test set accuracy is " + str(accuracy) + "%")
+
+	return theta, np.mean(X, axis=0), np.amin(X, axis=0), np.amax(X, axis=0)
+
+train()
+

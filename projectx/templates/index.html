@@ -17,6 +17,7 @@
 					{{msg}}
 				</h1>
 			</hgroup>
+		{% endif %}
 		<hgroup>
 			<h1>
 				AIDS - Automated Intelligent Delivery System
@@ -25,36 +26,44 @@
 				By bhayanak_maut
 			</h3>
 		</hgroup>
-		<form method="POST">
-			{% csrf_token %}
+		{% if res %}
 			<div class="group">
-				<input type="email" name='email' required=True><span class="highlight"></span><span class="bar"></span>
-				<label>Email</label>
+				<h1><span class="highlight"></span><span class="bar"></span>
+					res
+				</h1>				
 			</div>
-			<div class="group">
-				<input type="text" name='amount' required=True><span class="highlight"></span><span class="bar"></span>
-				<label>Transaction Amount</label>
-			</div>
-			<div class="group">
-				<input type="text" name='address1' required=True><span class="highlight"></span><span class="bar"></span>
-				<label>Address Line 1</label>
-			</div>
-			<div class="group">
-				<input type="text" name='address2' required=True><span class="highlight"></span><span class="bar"></span>
-				<label>Address Line 2</label>
-			</div>
-			<div class="group">
-				<input type="text" name='city' required=True><span class="highlight"></span><span class="bar"></span>
-				<label>City</label>
-			</div>
-			<div class="group">
-				<input type="text" name='pincode' required=True><span class="highlight"></span><span class="bar"></span>
-				<label>Pincode</label>
-			</div>
-			<button type="submit" class="button buttonBlue">
-				Check
-				<div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
-			</button>
-		</form>
+		{% else %}
+			<form method="POST">
+				{% csrf_token %}
+				<div class="group">
+					<input type="email" name='email' required=True><span class="highlight"></span><span class="bar"></span>
+					<label>Email</label>
+				</div>
+				<div class="group">
+					<input type="text" name='amount' required=True><span class="highlight"></span><span class="bar"></span>
+					<label>Transaction Amount</label>
+				</div>
+				<div class="group">
+					<input type="text" name='address1' required=True><span class="highlight"></span><span class="bar"></span>
+					<label>Address Line 1</label>
+				</div>
+				<div class="group">
+					<input type="text" name='address2' required=True><span class="highlight"></span><span class="bar"></span>
+					<label>Address Line 2</label>
+				</div>
+				<div class="group">
+					<input type="text" name='city' required=True><span class="highlight"></span><span class="bar"></span>
+					<label>State</label>
+				</div>
+				<div class="group">
+					<input type="text" name='pincode' required=True><span class="highlight"></span><span class="bar"></span>
+					<label>Pincode</label>
+				</div>
+				<button type="submit" class="button buttonBlue">
+					Check
+					<div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+				</button>
+			</form>
+		{% endif %}
 	</body>	
 </html>

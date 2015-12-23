@@ -2,7 +2,7 @@ from random import uniform, randint
 pincode_file = open('distinct_pincode.csv', 'r')
 with open('distinct_pincode.csv') as pincode_file, open('training_data.csv', 'w') as output_file:
 	for idx, data in enumerate(pincode_file):
-		if idx == 10:
+		if idx == 100:
 			break
 		pincode = data.rstrip()
 		pincode_success_rate = uniform(0, 1)
@@ -29,6 +29,6 @@ with open('distinct_pincode.csv') as pincode_file, open('training_data.csv', 'w'
 			output += str(success_rate) + ','
 			output += str(transaction_amt) + ','
 			output += str(successful_transaction) + ','
-			output += str(deliver) + '\n'
+			output += str(int(deliver)) + '\n'
 			output_file.write(output)
 

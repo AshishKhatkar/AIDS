@@ -1,19 +1,24 @@
-from numpy import genfromtext, where
-from pylab import scatter, show, legend, xlabel, ylabel
+import numpy as np
+import matplotlib.pyplot as pt
 
-data = genfromtext('test.csv', delimiter=',')
+#dtype=['i8', 'f8', 'i8', 'i8', 'f8', 'i8', 'i8', 'i8']
+
+data = np.loadtxt('training_data.csv', delimiter = ',')
+print (data)
 
 X = data[:, 0:-1]
 y = data[:, -1]
 psi = 1
 usi = 4
 
-pos = where(y == 1)
-neg = where(y == 0)
-scatter(X[pos, psi], X[pos, usi], marker='+', c = 'b')
-scatter(X[neg, usi], X[neg, usi], marker='o', c = 'r')
+pos = np.where(y == 1)
+neg = np.where(y == 0)
+print (pos)
+print (neg)
+pt.scatter(X[pos, psi], X[pos, usi], marker='+', c = 'b')
+pt.scatter(X[neg, psi], X[neg, usi], marker='o', c = 'r')
 
-xlabel('pincode success rate')
-ylabel('user success rate')
-legend(['Deliver', 'No deliver'])
-show()
+pt.xlabel('pincode success rate')
+pt.ylabel('user success rate')
+pt.legend(['Deliver', 'No deliver'])
+pt.show()

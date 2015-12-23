@@ -21,12 +21,12 @@ with open('all_india_pin_code.csv', 'rb') as f:
 	reader = csv.reader(f)
 	for row in reader:
 		# print row
-		distinct_pincode.add(row[1])
+		distinct_pincode.add((row[1], row[9]))
 		
 
 for pincode in distinct_pincode :
  	# print pincode
- 	sql = "INSERT INTO PINCODES(pincode, state) VALUES ('%s', '%s')" % (row[1], row[9])
+ 	sql = "INSERT INTO PINCODES(pincode, state) VALUES ('%s', '%s')" % (pincode[0], pincode[1])
 	try:
 	   # Execute the SQL command
 	   cursor.execute(sql)

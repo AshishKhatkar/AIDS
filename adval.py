@@ -4,18 +4,35 @@ Address Validation Script
 import geopy
 from geopy.distance import vincenty
 from geopy.geocoders import Nominatim
-def validate_pincode(pincode):
-	#add pincode validation from mysql db
-	return True
+import MySQLdb
 
-def check_address(pincode, address, country):
+
+def validate_pincode(pincode, state):
+
+	db = MySQLdb.connect("localhost", "root", "password", "Snapdeal_Hackathon")
+	cursor = db.cursor()
+
+	sql = "SELECT COUNT(*) FROM PINCODES WHERE pincode = '" + str(pincode) + "' AND state = '" + str(state) + "';"	
+	cursor.execute(sql)
+	data = cursor.fetchall()
+
+	db.close()
+	# print data
+	
+	if str(data) != "((0L,),)" :
+		return True
+	else :
+		return False
+
+
+def check_address(pincode, address, state, country):
 	if not validate_pincode():
 		return False
 	geolocator = Nominatim()
-	location = geolocator.geocode(address + ',' + country)
+	location = geolocator.geocode(address + ',' + state + ',' + country)
 	if not location:
 		return False
-	location1 = geolocator.geocode(pincode + ',' + country)
+	location1 = geolocator.geocode(pincode + ',' + state + ',' + country)
 	if not location:
 		return False
 	location_coordinates = (location.latitude, location.longitude)
@@ -24,3 +41,4 @@ def check_address(pincode, address, country):
 		return False
 	else:
 		return True
+

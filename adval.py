@@ -7,6 +7,7 @@ from geopy.geocoders import Nominatim
 def validate_pincode(pincode):
 	#add pincode validation from mysql db
 	return True
+
 def check_address(pincode, address, country):
 	if not validate_pincode():
 		return False

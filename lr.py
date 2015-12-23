@@ -37,10 +37,25 @@ def normalize(X):
 	smax = np.amax(X, axis=0)
 	return (((X - mu) / (smax - smin)) + 1) / 2
 
-def predict(theta, X):
-	return (sigmoid(X.dot(theta)) >= 0.5)
+def predict(theta, X, **kwargs):
+	if len(kwargs.items()) > 0:
+		try:
+			mean = float(kwargs['mean'])
+			minv = float(kwargs['minv'])
+			maxv = float(kwargs['maxv'])
+			X = (((X - mean) / (maxv - minv) + 1) / 2)
+			return (sigmoid(X.dot(theta)) >= 0.5)
+		except KeyError:
+			return None
+	else:
+		return (sigmoid(X.dot(theta)) >= 0.5)
 
 def train():
+	"""
+	train the logistic regression model. 
+	uses training_data.csv
+	returns theta, mean, min, max
+	"""
 	data = np.loadtxt("training_data.csv", delimiter=',', dtype=float)
 	data = np.random.permutation(data)
 	useful_data = np.array([1, 2, 3, 4, 5, 6, 7])
@@ -65,7 +80,3 @@ def train():
 	print("Test set accuracy is " + str(accuracy) + "%")
 
 	return theta, np.mean(X, axis=0), np.amin(X, axis=0), np.amax(X, axis=0)
-
-def predict(theta, X, mean, minv, maxv):
-	X = (((X - mean) / (maxv - minv) + 1) / 2)
-	return (sigmoid(X.dot(theta)) >= 0.5)

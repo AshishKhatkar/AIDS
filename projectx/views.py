@@ -47,7 +47,6 @@ def index(request) :
 		# print adval.validate_pincode(request.POST.get('pincode'), request.POST.get('city'))
 		# print adval.check_address(request.POST.get('pincode'), str(request.POST.get('address1')), request.POST.get('city'), 'India')
 		if validate_input(request) and adval.validate_pincode(request.POST.get('pincode'), request.POST.get('city')) and adval.check_address(request.POST.get('pincode'), str(request.POST.get('address1')), request.POST.get('city'), 'India'):			
-			return HttpResponse('Congrats.')
+			return render_to_response('result.html', {'res' : 'You can order with both options'}, context_instance=RequestContext(request))
 		else:
 			return render_to_response('index.html', {'msg' : 'Please provide valid input'}, context_instance = RequestContext(request))
-

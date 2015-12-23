@@ -66,5 +66,6 @@ def train():
 
 	return theta, np.mean(X, axis=0), np.amin(X, axis=0), np.amax(X, axis=0)
 
-train()
-
+def predict(theta, X, mean, minv, maxv):
+	X = (((X - mean) / (maxv - minv) + 1) / 2)
+	return (sigmoid(X.dot(theta)) >= 0.5)

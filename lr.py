@@ -3,11 +3,6 @@ import numpy as np
 from scipy.optimize import fmin_bfgs
 from visualize import plot_data
 
-theta_global = np.zeroes(5)
-minv = np.zeroes(5)
-maxv = np.zeroes(5)
-mean = np.zeroes(5)
-
 def sigmoid(a):
 	return 1 / (1 + math.e ** (-a))
 
@@ -42,10 +37,19 @@ def normalize(X):
 	smax = np.amax(X, axis=0)
 	return (((X - mu) / (smax - smin)) + 1) / 2
 
-def predict(theta, X, appcall=1):
-	if (appcall):
-		X = (((X - mean) / (maxv - minv) + 1) / 2)
-		return (sigmoid(X.dot(theta_global)) >= 0.5)
+def predict(theta, X, **kwargs):
+	#for external calls
+	if (len(kwargs.items()):
+		try:
+			mean = kwargs['mean']
+			maxv = kwargs['maxv']
+			minv = kwargs['minv']
+			X = (((X - mean) / (maxv - minv) + 1) / 2)
+			return (sigmoid(X.dot(theta_global)) >= 0.5)
+		except KeyError, ValueError:
+			print "Error, please provide a dictionary with 'mean', 'maxv', 'minv' as keys with compatible arrays as values"
+			return None
+	#for calls within this file (for testing)
 	else:
 		return (sigmoid(X.dot(theta)) >= 0.5)
 
@@ -74,12 +78,9 @@ def train():
 	x_test = test_data[:, :-1]
 	x_test = normalize(x_test)
 	y_test = test_data[:, -1]
-	y_predict = predict(theta, x_test, 0)
+	y_predict = predict(theta, x_test)
 
 	accuracy = (1 - sum(np.absolute(y_predict - y_test)) / len(y_test)) * 100
 	print("Test set accuracy is " + str(accuracy) + "%")
 
-	global mean = np.mean(X, axis=0)
-	global minv = np.amin(X, axis=0)
-	global maxv = np.amax(X, axis=0)
-	global theta_global = theta
+	return theta, np.mean(X, axis=0), np.amin(X, axis=0), np.amax(X, axis=0)

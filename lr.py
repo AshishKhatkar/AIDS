@@ -35,7 +35,7 @@ def normalize(X):
 	mu = np.mean(X, axis=0)
 	smin = np.amin(X, axis=0)
 	smax = np.amax(X, axis=0)
-	return (X - mu) / (smax - smin)
+	return (((X - mu) / (smax - smin)) + 1) / 2
 
 def main():
 	#print (sigmoid(0))

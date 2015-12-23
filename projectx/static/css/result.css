@@ -1,0 +1,30 @@
+h1, h2 {
+  text-align:center;
+}
+
+hr {
+  margin:2em 0 !important;
+}
+
+.demo-card-wide.mdl-card {
+  width: 512px;
+  margin:0 auto;
+}
+.demo-card-wide > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: url('http://wallpapercave.com/wp/KoUTHSe.jpg') center / cover;
+}
+.demo-card-wide > .mdl-card__menu {
+  color: #fff;
+}
+
+.demo-card-square.mdl-card {
+  width: 320px;
+  height: 320px;
+  margin:0 auto;
+}
+.demo-card-square > .mdl-card__title {
+  color: #fff;
+  background:url('http://wallpapercave.com/wp/KoUTHSe.jpg') no-repeat center / cover;
+}

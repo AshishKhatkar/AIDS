@@ -74,8 +74,8 @@ def delivery_report(request):
 		return render_to_response('index.html', context_instance = RequestContext(request))
 	elif request.method == 'POST':
 		email = request.POST.get('email')
-		pincode = request.POST.get('email')
-		success = request.POST.get('delivery_successful_or_not')
+		pincode = int(request.POST.get('pincode'))
+		success = int(request.POST.get('delivery_successful_or_not'))
 		ud = UserInputModel.objects.get_or_create(user_email = email)
 		pd = PincodeData.objects.get_or_create(pincode=pincode)
 		

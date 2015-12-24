@@ -69,6 +69,26 @@ def predict_x(request):
 		else:
 			return render_to_response('result.html', {'res': 'We do not deliver to this address'}, context_instance=RequestContext(request))
 
+def delivery_report(request):
+	if request.method == 'GET':
+		return render_to_response('index.html', context_instance = RequestContext(request))
+	elif request.method == 'POST':
+		email = request.POST.get('email')
+		pincode = request.POST.get('email')
+		success = request.POST.get('delivery_successful_or_not')
+		ud = UserInputModel.objects.get_or_create(user_email = email)
+		pd = PincodeData.objects.get_or_create(pincode=pincode)
+		
+		ud.user_succesful_transactions += success
+		ud.user_total_transactions += 1
+		ud.user_success_rate = ud.user_successful_transactions / ud.user_total_transactions
+		ud.save()
+	
+		pd.pincode_succesful_transactions += success
+		pd.pincode_total_transactions += 1
+		pd.pincode_success_rate = pd.pincode_successful_transactions / pd.pincode_total_transactions
+		pd.save()
+
 
 @csrf_protect
 def index(request) :

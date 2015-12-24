@@ -43,17 +43,27 @@ def validate_input(request):
 
 def predict_x(request):
 	b = sio.loadmat('trained_val.mat')
+	try:
+		pd = PincodeData.objects.get(pincode=int(request.POST.get('pincode')))
+	except:
+		pd = PincodeData.objects.create(pincode=int(request.POST.get('pincode')))
+		pd.save()
+	try:
+		ud = UserInputModel.objects.get(user_email=request.POST.get('email'))
+	except:
+		ud = UserInputModel.objects.create(user_email=request.POST.get('email'))
+		ud.save()
 	pd = PincodeData.objects.get(pincode=int(request.POST.get('pincode')))
 	ud = UserInputModel.objects.get(user_email=request.POST.get('email'))
 	x = np.array([pd.pincode_success_rate, ud.user_theft, 0, ud.user_success_rate, request.POST.get('amount'), ud.user_succesful_transactions], dtype=float)
 	theta = b['theta']
 	b.pop('theta', None)
-	y = lr.predict(theta, x, *b)
+	y = lr.predict(theta, x, b)
 	if y:
 		return render_to_response('result.html', {'res' : 'You can order with both options'}, context_instance=RequestContext(request))
 	else:
 		x[2] = 1
-		y = lr.predict(theta, x, *b)
+		y = lr.predict(theta, x, b)
 		if y:
 			return render_to_response('result.html', {'res': 'Cash on delivery is not available'}, context_instance=RequestContext(request))
 		else:
@@ -63,6 +73,7 @@ def predict_x(request):
 @csrf_protect
 def index(request) :
 	if request.method == 'GET':
+		# return train(request)
 		return render_to_response('index.html', context_instance = RequestContext(request))
 	elif request.method == 'POST':
 		# print request.POST.get('pincode')
@@ -79,5 +90,5 @@ def train(request):
 	theta, mean, minv, maxv = lr.train()
 	a = {'theta':theta, 'mean':mean, 'minv':minv, 'maxv':maxv}
 	sio.savemat('trained_val.mat', a)
-	return render_to_response('index.html', {'msg' : 'successfully trained model'})
+	return render_to_response('index.html', {'msg' : 'successfully trained model'}, context_instance = RequestContext(request))
 

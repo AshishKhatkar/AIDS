@@ -37,16 +37,26 @@ def normalize(X):
 	smax = np.amax(X, axis=0)
 	return (((X - mu) / (smax - smin)) + 1) / 2
 
-def predict(theta, X, **kwargs):
+def predict(theta, X, kwargs={}):
+	print (kwargs)
 	#for external calls
 	if len(kwargs.items()):
 		try:
 			mean = kwargs['mean']
 			maxv = kwargs['maxv']
 			minv = kwargs['minv']
+			mean = np.reshape(mean, len(X))
+			maxv = np.reshape(maxv, len(X))
+			minv = np.reshape(minv, len(X))
+			theta = np.reshape(theta, len(X))
+			print (mean)
+			print (maxv)
+			print (minv)
+			print (X)
 			X = (((X - mean) / (maxv - minv) + 1) / 2)
 			return (sigmoid(X.dot(theta)) >= 0.5)
 		except (KeyError, ValueError) as e:
+			print (e.__str__())
 			print ("Error, please provide a dictionary with 'mean', 'maxv', 'minv' as keys with compatible arrays as values")
 			return None
 	#for calls within this file (for testing)

@@ -71,7 +71,7 @@ def predict_x(request):
 
 def delivery_report(request):
 	if request.method == 'GET':
-		return render_to_response('index.html', context_instance = RequestContext(request))
+		return render_to_response('report.html', context_instance = RequestContext(request))
 	elif request.method == 'POST':
 		email = request.POST.get('email')
 		pincode = int(request.POST.get('pincode'))

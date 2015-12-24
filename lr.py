@@ -28,7 +28,7 @@ def compute_grad(theta, X, y):
 	h = sigmoid(X.dot(theta))
 	hyT = np.transpose(h - y)
 	m = len(X)
-	grad = 1 / m * (hyT.dot(X))	
+	grad = 1.0 / m * (hyT.dot(X))	
 	return grad
 
 def normalize(X):
@@ -54,6 +54,8 @@ def predict(theta, X, kwargs={}):
 			print (minv)
 			print (X)
 			X = (((X - mean) / (maxv - minv) + 1) / 2)
+			print (X)
+			print (sigmoid(X.dot(theta)))
 			return (sigmoid(X.dot(theta)) >= 0.5)
 		except (KeyError, ValueError) as e:
 			print (e.__str__())
@@ -82,6 +84,10 @@ def train():
 	y = train_data[:, -1]
 	theta = np.random.uniform(0, 1, len(X[0]))
 	
+	mean = np.mean(X, axis=0)
+	minv = np.amin(X, axis=0)
+	maxv = np.amax(X, axis=0)
+
 	X = normalize(X)
 	theta = fmin_bfgs(f=compute_cost, x0=theta, fprime=compute_grad, args=(X, y), maxiter=400)
 
@@ -93,4 +99,9 @@ def train():
 	accuracy = (1 - sum(np.absolute(y_predict - y_test)) / len(y_test)) * 100
 	print("Test set accuracy is " + str(accuracy) + "%")
 
-	return theta, np.mean(X, axis=0), np.amin(X, axis=0), np.amax(X, axis=0)
+	print(X)
+	print(y)
+
+	# plot_data(theta, X, y)
+
+	return theta, mean, minv, maxv

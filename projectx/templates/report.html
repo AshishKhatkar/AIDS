@@ -18,6 +18,11 @@
 			<h3>
 				By bhayanak_maut
 			</h3>
+			{% if res %}
+				<h1>
+					{{res}}
+				</h1>
+			{% endif %}
 		</hgroup>
 			<form method="POST">
 				{% csrf_token %}

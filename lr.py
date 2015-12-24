@@ -39,15 +39,15 @@ def normalize(X):
 
 def predict(theta, X, **kwargs):
 	#for external calls
-	if (len(kwargs.items()):
+	if len(kwargs.items()):
 		try:
 			mean = kwargs['mean']
 			maxv = kwargs['maxv']
 			minv = kwargs['minv']
 			X = (((X - mean) / (maxv - minv) + 1) / 2)
-			return (sigmoid(X.dot(theta_global)) >= 0.5)
-		except KeyError, ValueError:
-			print "Error, please provide a dictionary with 'mean', 'maxv', 'minv' as keys with compatible arrays as values"
+			return (sigmoid(X.dot(theta)) >= 0.5)
+		except (KeyError, ValueError) as e:
+			print ("Error, please provide a dictionary with 'mean', 'maxv', 'minv' as keys with compatible arrays as values")
 			return None
 	#for calls within this file (for testing)
 	else:

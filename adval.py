@@ -31,7 +31,7 @@ def check_address(pincode, address, state, country):
 	geolocator = Nominatim()
 
 	location = geolocator.geocode(address + ',' + state + ',' + country)
-	print location
+	print (location)
 	if not location:
 		return False
 

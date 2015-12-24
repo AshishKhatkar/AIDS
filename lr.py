@@ -1,7 +1,6 @@
 import math
 import numpy as np
 from scipy.optimize import fmin_bfgs
-from visualize import plot_data
 
 def sigmoid(a):
 	return 1 / (1 + math.e ** (-a))
@@ -35,10 +34,10 @@ def normalize(X):
 	mu = np.mean(X, axis=0)
 	smin = np.amin(X, axis=0)
 	smax = np.amax(X, axis=0)
-	return (((X - mu) / (smax - smin)) + 1) / 2
+	return (((X - mu) * 1.0 / (smax - smin)) + 1) / 2.0
 
 def predict(theta, X, kwargs={}):
-	print (kwargs)
+	# print (kwargs)
 	#for external calls
 	if len(kwargs.items()):
 		try:
@@ -49,12 +48,12 @@ def predict(theta, X, kwargs={}):
 			maxv = np.reshape(maxv, len(X))
 			minv = np.reshape(minv, len(X))
 			theta = np.reshape(theta, len(X))
-			print (mean)
-			print (maxv)
-			print (minv)
-			print (X)
-			X = (((X - mean) / (maxv - minv) + 1) / 2)
-			print (X)
+			# print (mean)
+			# print (maxv)
+			# print (minv)
+			# print (X)
+			X = (((X - mean) *1.0 / (maxv - minv) + 1) / 2.0)
+			# print (X)
 			print (sigmoid(X.dot(theta)))
 			return (sigmoid(X.dot(theta)) >= 0.5)
 		except (KeyError, ValueError) as e:
@@ -99,8 +98,8 @@ def train():
 	accuracy = (1 - sum(np.absolute(y_predict - y_test)) / len(y_test)) * 100
 	print("Test set accuracy is " + str(accuracy) + "%")
 
-	print(X)
-	print(y)
+	# print(X)
+	# print(y)
 
 	# plot_data(theta, X, y)
 

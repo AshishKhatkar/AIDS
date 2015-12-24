@@ -95,8 +95,8 @@ def delivery_report(request):
 @csrf_protect
 def index(request) :
 	if request.method == 'GET':
-		# return train(request)
-		return render_to_response('index.html', context_instance = RequestContext(request))
+		return train(request)
+		# return render_to_response('index.html', context_instance = RequestContext(request))
 	elif request.method == 'POST':
 		# print request.POST.get('pincode')
 		# print request.POST.get('city')

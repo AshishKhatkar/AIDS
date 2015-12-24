@@ -16,11 +16,11 @@ with open('distinct_pincode.csv') as pincode_file, open('training_data.csv', 'w'
 				deliver = 0
 			else:
 				num = uniform(0, 1)
-				if success_rate >= 0.2 and online_or_cod == 1:
+				if success_rate >= 0.1 and online_or_cod == 1:
 					deliver = 1
-				elif success_rate >= 0.2 and transaction_amt <= 500:
+				elif success_rate >= 0.1 and transaction_amt <= 500:
 					deliver = 1
-				elif success_rate >= 0.5:
+				elif success_rate >= 0.3:
 					deliver = (num >= 0.2)
 				else:
 					deliver = 0
